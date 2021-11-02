@@ -1,6 +1,6 @@
 # EdbotStudio Client Protocol
 
-Documentation for EdbotStudio client protocol.
+Documentation for the EdbotStudio client protocol.
 
 <!-- LICENCE -->
 ## Licence
