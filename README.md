@@ -25,7 +25,7 @@ ws://_server_:_port_/api
 Commonly _server_ is **localhost**, however it could be the name or IP address of a remote server.
 By default the _port_ number is **54255** but it may be different depending on the server configuration.
 
-## Messaging
+## Messages
 
 Messages are sent and received over the connection in JSON format. Each message has an integer **category**
 property defined here.
@@ -34,9 +34,8 @@ property defined here.
 |---|:---|:---|
 |1|REQUEST|Request sent from client to server
 |2|RESPONSE|Request response from the server
-|3|UPDATE|Sent from server to client when data is updated (see below)
+|3|UPDATE|Sent from server to client when data is added or updated (see below)
 |4|DELETE|Sent from server to client when data is deleted (see below)
-|5|CLOSE|Sent from server to client when the server closes the connection
 
 ### Request & Response Messages
 
@@ -92,6 +91,36 @@ The message types are listed below. The meaning of some types are robot specific
 |23|SET_CUSTOM|Set a custom value|
 |24|SAY|Speak the text|
 |25|RESET|Reset to initial values|
+
+### Update Messages
+
+Example update message.
+
+```json
+{
+    "category": 3,
+    "data": {
+        "robots": {
+            "Anna": {
+                "control": "pepper"
+            }
+        }
+    }
+}
+```
+
+### Delete Messages
+
+Example delete message.
+
+```json
+{
+    "category": 4,
+    "data": {
+        "path": "robots.Anna"
+    }
+}
+```
 
 ## Licence
 
