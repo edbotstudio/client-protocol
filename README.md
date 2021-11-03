@@ -32,11 +32,32 @@ property defined here.
 
 |Sort|Name|Description|
 |---|:---|:---|
-|1|SORT_REQUEST|Request sent from client to server
-|2|SORT_RESPONSE|Request response from the server
-|3|SORT_UPDATE|Sent from server to client when data is updated (see below)
-|4|SORT_DELETE|Sent from server to client when data is deleted (see below)
-|5|SORT_CLOSE|Sent from server to client when server closes connection
+|1|REQUEST|Request sent from client to server
+|2|RESPONSE|Request response from the server
+|3|UPDATE|Sent from server to client when data is updated (see below)
+|4|DELETE|Sent from server to client when data is deleted (see below)
+|5|CLOSE|Sent from server to client when the server closes the connection
+
+### Request & Response Messages
+
+Request and response messages additionally have a **type** and **sequence** property.
+
+The types are listed below. The meaning of each types is robot specific and described in the next section.
+
+|Type|Name|Description
+|---|:---|:---|
+|1|INIT|Initialise the client. Do this before sending other request types|
+|2|GET_CLIENTS|Get clients connected to this server|
+|3|GET_SERVERS|Get the available servers|
+|4|GET_SENSORS|Get the sensor values|
+|10|RUN_MOTION|Run a motion|
+|11|SET_SERVOS|Set servo parameters|
+|20|SET_SPEAKER|Set the speaker parameters|
+|21|SET_DISPLAY|Set the display parameters|
+|22|SET_OPTIONS|Set connection specific options|
+|23|SET_CUSTOM|Set a custom value|
+|24|SAY|Speak the text|
+|25|RESET|Reset to initial values|
 
 ## Licence
 
