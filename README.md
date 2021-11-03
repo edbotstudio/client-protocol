@@ -76,11 +76,11 @@ The client should generate a sequence number, unique to this connection, for eac
 idea to start with a sequence number of 1 and then increment for subsequent requests. The matching response
 will contain the same sequence (and type) number.
 
-The message types are listed below. The meaning of each type is robot specific and described in the next section.
+The message types are listed below. The meaning of some types are robot specific and described in the next section.
 
 |Type|Name|Description
 |---|:---|:---|
-|1|INIT|Initialise the client. Do this before sending other request types|
+|1|INIT|Initialise the client.
 |2|GET_CLIENTS|Get clients connected to this server|
 |3|GET_SERVERS|Get the available servers|
 |4|GET_SENSORS|Get the sensor values|
