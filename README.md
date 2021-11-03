@@ -27,10 +27,10 @@ By default the _port_ number is **54255** but it may be different depending on t
 
 ## Messaging
 
-Messages are sent and received over the connection in JSON format. Each message has an integer **sort**
+Messages are sent and received over the connection in JSON format. Each message has an integer **category**
 property defined here.
 
-|Sort|Name|Description|
+|Category|Name|Description|
 |---|:---|:---|
 |1|REQUEST|Request sent from client to server
 |2|RESPONSE|Request response from the server
@@ -40,9 +40,43 @@ property defined here.
 
 ### Request & Response Messages
 
-Request and response messages additionally have a **type** and **sequence** property.
+Example request message, **params** content omitted:
 
-The types are listed below. The meaning of each types is robot specific and described in the next section.
+```json
+{
+    "category": 1,
+    "sequence": 1,
+    "type": 1,
+    "params": {
+    }
+}
+```
+
+Example response message, **data** content omitted:
+
+```json
+{
+    "category": 2,
+    "sequence": 1,
+    "type": 1,
+    "status": {
+        "success": true,
+        "text":"OK"
+    },
+    "data": {
+    }
+}
+```
+
+As you can see, request and response messages additionally have an integer **sequence** and **type** property.
+The sequence number is necessary because the messaging protocol is asynchronous, meaning a particular response
+does not always directly follow a matching request. Some requests take longer than others to complete.
+
+The client should generate a sequence number, unique to this connection, for each request message. It's a good
+idea to start with a sequence number of 1 and then increment for subsequent requests. The matching response
+will contain the same sequence (and type) number.
+
+The message types are listed below. The meaning of each type is robot specific and described in the next section.
 
 |Type|Name|Description
 |---|:---|:---|
