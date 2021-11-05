@@ -123,7 +123,7 @@ Example INIT request
 ```
 
 The INIT response contains server information in the **data** property described below. The client can store
-this data and keep it up-to-date by processing (#update-&-delete-messages) from the server which are sent in
+this data and keep it up-to-date by processing (#update--delete-messages) from the server which are sent in
 real-time.
 
 | Prop | Type | Optional | Default | Description |
