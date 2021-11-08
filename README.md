@@ -281,7 +281,37 @@ Example GET_CLIENTS response with annotation:
 
 **GET_SERVERS**
 
-Get the available servers
+Get all available servers. This call will initiate a LAN broadcast.
+
+Example GET_SERVERS request:
+
+```yaml
+{
+    "category": 1,
+    "sequence": 3,
+    "type": 3
+}
+```
+
+Example GET_SERVERS response with annotation:
+
+```yaml
+{
+    "category": 2,
+    "sequence": 3,
+    "type": 3,
+    "data": [
+        {
+            "ip": "127.0.0.1",                                  // server ip address
+            "port": "54255"                                     // server port number
+        },
+        {
+            "ip": "192.168.1.27",
+            "port": "54255"
+        }
+    ]
+}
+```
 
 ---
 
