@@ -150,14 +150,14 @@ Example INIT response with annotation:
         },
         "session": {                                            // client session info
             "id": "aOhvF8Pu",                                   // internal id for this session
-            "name": "My Session",                               // optional client supplied name for this session
+            "name": "My Session",                               // optional name for this session
             "device": {                                         // device from which client is connecting
                 "id": "paprika.lan",                            // device id
-                "name": "My Desktop PC (paprika.lan)",          // device name including alias if provided
+                "name": "My Desktop PC (paprika.lan)",          // device name with alias if provided
                 "remote": false                                 // is server remote to this device?
             }
         },
-        "devices": {                                            // devices that have connected since startup
+        "devices": {                                            // devices connected since startup
             "paprika.lan": {                                    // device id as key
                 "id": "paprika.lan",
                 "name": "My Desktop PC (paprika.lan)",
@@ -178,14 +178,14 @@ Example INIT response with annotation:
                     "category": "Humanoid",                     // currently unused category
                     "thumb": "edbot-mini.gif",
                     "connectors": [ "btc" ],                    // array of supported connector types
-                    "defaultMotionFile": "C:\\motions.mtnx"     // default motion file, null if not supported
+                    "defaultMotionFile": "C:\\motions.mtnx"     // default motion file or null
                 },
                 "connector": {                                  // connector used for this robot
                     "type": "btc",                              // connector type
                     "name": "Bluetooth"                         // connector name
                     "start": false,                             // connect on software startup?
-                    "status": 1,                                // 1 :: not connected, 2 :: connecting, 3 :: connected
-                    "device": {                                 // connector device specific to connector type
+                    "status": 1,                                // disconnected, connecting, or connected
+                    "device": {                                 // device specific to connector type
                         "id": "00:16:53:7f:29:1b",
                         "name": "ROBOTIS BT-210"
                     }
@@ -257,10 +257,10 @@ Example GET_CLIENTS response with annotation:
     "data": [
         {
             "id": "Qzmz1eKw",                                   // internal id for this session
-            "name": "CLI",                                      // optional client supplied name for this session
+            "name": "CLI",                                      // optional name for this session
             "device": {                                         // device from which client is connecting
                 "id": "paprika.lan",                            // device id
-                "name": "My Desktop PC (paprika.lan)",          // device name including alias if provided
+                "name": "My Desktop PC (paprika.lan)",          // device name with alias if provided
                 "remote": false                                 // is server remote to this device?
             }
         },
