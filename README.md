@@ -151,7 +151,7 @@ Example INIT response with annotation:
         "session": {                                            // client session info
             "id": "aOhvF8Pu",                                   // internal id for this session
             "name": "My Session",                               // optional name for this session
-            "device": {                                         // device from which client is connecting
+            "device": {                                         // client device
                 "id": "paprika.lan",                            // device id
                 "name": "My Desktop PC (paprika.lan)",          // device name with alias if provided
                 "remote": false                                 // is server remote to this device?
@@ -184,7 +184,7 @@ Example INIT response with annotation:
                     "type": "btc",                              // connector type
                     "name": "Bluetooth"                         // connector name
                     "start": false,                             // connect on software startup?
-                    "status": 1,                                // disconnected, connecting, or connected
+                    "status": 1,                                // disconnected, connecting, connected
                     "device": {                                 // device specific to connector type
                         "id": "00:16:53:7f:29:1b",
                         "name": "ROBOTIS BT-210"
@@ -258,7 +258,7 @@ Example GET_CLIENTS response with annotation:
         {
             "id": "Qzmz1eKw",                                   // internal id for this session
             "name": "CLI",                                      // optional name for this session
-            "device": {                                         // device from which client is connecting
+            "device": {                                         // client device
                 "id": "paprika.lan",                            // device id
                 "name": "My Desktop PC (paprika.lan)",          // device name with alias if provided
                 "remote": false                                 // is server remote to this device?
