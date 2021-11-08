@@ -75,6 +75,10 @@ The client should generate a sequence number, unique to this connection, for eac
 idea to start with a sequence number of 1 and then increment for subsequent requests. The matching response
 will contain the same sequence (and type) number.
 
+The response message also contains a **status** object comprising a **success** property indicating whether the
+request was successful or not. If unsuccessful, the **text** property holds the reason for the failure. This may
+be extended in future by adding a integer **code** property to enumerate the error.
+
 The message types are listed below. The meaning of some types are robot specific.
 
 | Type | Name | Description |
@@ -83,20 +87,18 @@ The message types are listed below. The meaning of some types are robot specific
 | 2 | GET_CLIENTS | Get clients connected to this server |
 | 3 | GET_SERVERS | Get the available servers |
 | 4 | GET_SENSORS | Get the sensor values |
-| 10 | RUN_MOTION | Run a motion |
-| 11 | SET_SERVOS | Set servo parameters |
-| 20 | SET_SPEAKER | Set the speaker parameters |
-| 21 | SET_DISPLAY | Set the display parameters |
-| 22 | SET_OPTIONS | Set connection specific options |
-| 23 | SET_CUSTOM | Set a custom value |
-| 24 | SAY | Speak the text |
-| 25 | RESET | Reset to initial values |
+| 5 | RUN_MOTION | Run a motion |
+| 6 | SET_SERVOS | Set servo parameters |
+| 7 | SET_SPEAKER | Set the speaker parameters |
+| 8 | SET_DISPLAY | Set the display parameters |
+| 9 | SET_OPTIONS | Set connection specific options |
+| 10 | SET_CUSTOM | Set a custom value |
+| 11 | SAY | Speak the text |
+| 12 | RESET | Reset to initial values |
 
-The response message also contains a **status** object comprising a **success** property indicating whether the
-request was successful or not. If unsuccessful, the **text** property holds the reason for the failure. This may
-be extended in future by adding a integer **code** property to enumerate the error.
+---
 
-#### INIT
+**INIT**
 
 Initialise the client. The INIT request should be made directly after connecting and before
 any subsequent requests. The message params are described below.
@@ -107,9 +109,9 @@ any subsequent requests. The message params are described below.
 | reporters | boolean | yes | true | Send reporter updates to this client |
 | deviceAlias | string | yes | null | An alias for this client device |
 
-Example INIT request
+Example INIT request:
 
-```json
+```yaml
 {
     "category": 1,
     "sequence": 1,
@@ -125,15 +127,10 @@ Example INIT request
 The INIT response contains server information in the **data** property described below. The client can store
 this data and keep it up-to-date by processing [update messages](#update--delete-messages) from the server.
 
-| Prop | Type | Optional | Default | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| server | object | yes | null | A name for this client connection |
-| devices | object | yes | true | Send reporter updates to this client |
-| session | object | yes | null | An alias for this client device |
-| robots | object | yes | null | An alias for this client device |
+The data hierarchy is constructed from JSON objects and avoids JSON arrays. This makes it easier and quicker
+for the client to find a particular property for update or delete.
 
-
-Example INIT response
+Example INIT response with annotation:
 
 ```yaml
 {
@@ -146,13 +143,22 @@ Example INIT response
     },
     "data": {
         "server": {
-            "remote": false,
-            "version": "5.2.0.1597",
-            "platform": "Windows 10, 10.0.19042.928, amd64",
-            "endpoint": "paprika.lan:54255"
+            "remote": false,                                    // is server remote to this client?
+            "version": "5.2.0.1597",                            // server software version
+            "platform": "Windows 10, 10.0.19042.928, amd64",    // server hardware platform
+            "endpoint": "paprika.lan:54255"                     // server endpoint
         },
-        "devices": {
-            "paprika.lan": {
+        "session": {                                            // client session info
+            "id": "aOhvF8Pu",                                   // internal id for this session
+            "name": "My Session",                               // optional client supplied name for this session
+            "device": {                                         // device from which client is connecting
+                "id": "paprika.lan",                            // device id
+                "name": "My Desktop PC (paprika.lan)",          // device name including alias if provided
+                "remote": false                                 // is server remote to this device?
+            }
+        },
+        "devices": {                                            // devices that have connected since startup
+            "paprika.lan": {                                    // device id as key
                 "id": "paprika.lan",
                 "name": "My Desktop PC (paprika.lan)",
                 "remote": false
@@ -163,53 +169,44 @@ Example INIT response
                 "remote": true
             }
         },
-        "session": {
-            "id": "aOhvF8Pu",
-            "name": "My Session",
-            "device": {
-                "id": "paprika.lan",
-                "name": "My Desktop PC (paprika.lan)",
-                "remote": false
-            }
-        },
-        "robots": {
-            "Anna": {
-                "control": "paprika.lan",
-                "model": {
+        "robots": {                                             // robots configured on server
+            "Anna": {                                           // robot name
+                "control": "paprika.lan",                       // controlling device
+                "model": {                                      // robot model
                     "name": "Edbot Mini",
                     "type": "edbot-mini",
-                    "category": "Humanoid",
+                    "category": "Humanoid",                     // currently unused category
                     "thumb": "edbot-mini.gif",
-                    "connectors": [ "btc" ],
-                    "defaultMotionFile": "C:\\motions.mtnx"
+                    "connectors": [ "btc" ],                    // array of supported connector types
+                    "defaultMotionFile": "C:\\motions.mtnx"     // default motion file, null if not supported
                 },
-                "connector": {
-                    "type": "btc",
-                    "name": "Bluetooth"
-                    "start": false,
-                    "status": 1,
-                    "device": {
+                "connector": {                                  // connector used for this robot
+                    "type": "btc",                              // connector type
+                    "name": "Bluetooth"                         // connector name
+                    "start": false,                             // connect on software startup?
+                    "status": 1,                                // 1 :: not connected, 2 :: connecting, 3 :: connected
+                    "device": {                                 // connector device specific to connector type
                         "id": "00:16:53:7f:29:1b",
                         "name": "ROBOTIS BT-210"
                     }
                 },
-                "speech": {
-                    "voice": {
+                "speech": {                                     // robot speech configuration
+                    "voice": {                                  // speech voice
                         "id": "0",
                         "name": "Microsoft Zira"
                     },
-                    "device": {
+                    "device": {                                 // speech device
                         "id": "0",
                         "name": "Sound blaster"
                     },
-                    "volume": 100,
-                    "rate": 0,
-                    "pitch": 0
+                    "volume": 100,                              // volume 0 -> 100
+                    "rate": 0,                                  // rate -10 -> 10
+                    "pitch": 0                                  // pitch -10 -> 10
                 },
-                "motions": {
-                    "motionFile": "C:\\motions.mtnx",
-                    "groups": {
-                        "All": [
+                "motions": {                                    // motions, null if not supported
+                    "motionFile": "C:\\motions.mtnx",           // actual motion file for this robot
+                    "groups": {                                 // motion groups
+                        "All": [                                // array of motion { id, name } objects
                             { "id": 6, "name": "Bow 2"},
                             //
                         ],
@@ -219,10 +216,13 @@ Example INIT response
                         //
                     }
                 }
-                "reporters": {
-                    "servos": {
+                "reporters": {                                  // reporters - will change frequently
+                    "servos": {                                 // servo reporters if supported
                         "1": 234.4,
                         "2": 300.0
+                    },
+                    "ports": {                                  // sensor reporters if supported
+                        "A": 34
                     }
                 }
             }
@@ -231,56 +231,118 @@ Example INIT response
 }
 ```
 
-#### GET_CLIENTS
+---
 
-Get clients connected to this server
+**GET_CLIENTS**
 
-#### GET_SERVERS
+Get the client sessions connected to this server.
+
+Example GET_CLIENTS request:
+
+```yaml
+{
+    "category": 1,
+    "sequence": 2,
+    "type": 2
+}
+```
+
+Example GET_CLIENTS response with annotation:
+
+```yaml
+{
+    "category": 2,
+    "sequence": 2,
+    "type": 2,
+    "data": [
+        {
+            "id": "Qzmz1eKw",                                   // internal id for this session
+            "name": "CLI",                                      // optional client supplied name for this session
+            "device": {                                         // device from which client is connecting
+                "id": "paprika.lan",                            // device id
+                "name": "My Desktop PC (paprika.lan)",          // device name including alias if provided
+                "remote": false                                 // is server remote to this device?
+            }
+        },
+        {
+            "id": "VPWqipXE",
+            "name": "Edbot Studio UI",
+            "device": {
+                "id": "paprika.lan",
+                "name": "My Desktop PC (paprika.lan)",
+                "remote": false
+            }
+        }
+    ]
+}
+```
+
+---
+
+**GET_SERVERS**
 
 Get the available servers
 
-#### GET_SENSORS
+---
+
+**GET_SENSORS**
 
 Get the sensor values
 
-#### RUN_MOTION
+---
+
+**RUN_MOTION**
 
 Run a motion
 
-#### SET_SERVOS
+---
+
+**SET_SERVOS**
 
 Set servo parameters
 
-#### SET_SPEAKER
+---
+
+**SET_SPEAKER**
 
 Set the speaker parameters
 
-#### SET_DISPLAY
+---
+
+**SET_DISPLAY**
 
 Set the display parameters
 
-#### SET_OPTIONS
+---
+
+**SET_OPTIONS**
 
 Set connection specific options
 
-#### SET_CUSTOM
+---
+
+**SET_CUSTOM**
 
 Set a custom value
 
-#### SAY
+---
+
+**SAY**
 
 Speak the text
 
-#### RESET
+---
+
+**RESET**
 
 Reset to initial values
 
 ### Update & Delete Messages
 
-These messages are sent from the server to indicate robot data has changed. They can be used to update
-or delete the data received in the **INIT** response.
+These messages are sent from the server to indicate data has been added, updated or deleted.
+They can be used to update the data received in the **INIT** response.
 
-Example update message.
+Example update message:
 
 ```json
 {
@@ -295,7 +357,7 @@ Example update message.
 }
 ```
 
-Example delete message.
+Example delete message:
 
 ```json
 {
