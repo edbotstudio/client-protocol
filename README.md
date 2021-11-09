@@ -218,8 +218,8 @@ Example INIT response with annotation:
                 }
                 "reporters": {                                  // reporters - will change frequently
                     "servos": {                                 // servo reporters if supported
-                        "1": 234.4,
-                        "2": 300.0
+                        "1": 512,
+                        "2": 384
                     },
                     "ports": {                                  // sensor reporters if supported
                         "A": 34
