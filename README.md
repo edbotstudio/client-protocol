@@ -222,9 +222,7 @@ Example INIT response with annotation:
                         "2": 384
                     },
                     "sensors": {                                // sensor reporters, can be null
-                        "ports": {
-                            "1": 34
-                        }
+                        "1": 34
                     }
                 }
             }
