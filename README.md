@@ -208,21 +208,23 @@ Example INIT response with annotation:
                     "groups": {                                 // motion groups
                         "All": [                                // array of motion { id, name } objects
                             { "id": 6, "name": "Bow 2"},
-                            //
+                            // ...
                         ],
                         "Basic": [
                             { "id": 6, "name": "Bow 2"},
                         ],
-                        //
+                        // ...
                     }
                 }
-                "reporters": {                                  // reporters - will change frequently
-                    "servos": {                                 // servo reporters if supported
+                "reporters": {                                  // reporters - may change frequently
+                    "servos": {                                 // servo reporters, can be null
                         "1": 512,
                         "2": 384
                     },
-                    "ports": {                                  // sensor reporters if supported
-                        "A": 34
+                    "sensors": {                                // sensor reporters, can be null
+                        "ports": {
+                            "1": 34
+                        }
                     }
                 }
             }
@@ -318,6 +320,12 @@ Example GET_SERVERS response with annotation:
 **GET_SENSORS**
 
 Get the sensor values
+
+---
+
+**GET_SERVOS**
+
+Get the servo values
 
 ---
 
