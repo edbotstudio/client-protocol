@@ -62,7 +62,7 @@ Example response message, **data** content omitted:
         "success": true,
         "text": "OK"
     },
-    "data": {                // only if request successful
+    "data": {                // only if succesful and data is returned
 	    // ...
     }
 }
