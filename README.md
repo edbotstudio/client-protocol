@@ -62,7 +62,8 @@ Example response message, **data** content omitted:
         "success": true,
         "text": "OK"
     },
-    "data": {
+    "data": {                // only if request successful
+	    // ...
     }
 }
 ```
@@ -254,6 +255,10 @@ Example GET_CLIENTS response with annotation:
     "category": 2,
     "sequence": 2,
     "type": 2,
+    "status": {
+        "success": true,
+        "text": "OK"
+    },
     "data": [
         {
             "id": "Qzmz1eKw",                                   // internal id for this session
@@ -300,6 +305,10 @@ Example GET_SERVERS response with annotation:
     "category": 2,
     "sequence": 3,
     "type": 3,
+    "status": {
+        "success": true,
+        "text": "OK"
+    },
     "data": [
         {
             "ip": "127.0.0.1",                                  // server ip address
