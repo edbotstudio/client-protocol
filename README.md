@@ -41,7 +41,7 @@ property defined here.
 
 Example request message, **params** content omitted:
 
-```json
+```yaml
 {
     "category": 1,
     "sequence": 1,
@@ -54,7 +54,7 @@ Example request message, **params** content omitted:
 
 Example response message, **data** content omitted:
 
-```json
+```yaml
 {
     "category": 2,
     "sequence": 1,
@@ -390,7 +390,7 @@ They can be used to update the data received in the **INIT** response.
 
 Example update message:
 
-```json
+```yaml
 {
     "category": 3,
     "data": {
@@ -405,7 +405,7 @@ Example update message:
 
 Example delete message:
 
-```json
+```yaml
 {
     "category": 4,
     "data": {
