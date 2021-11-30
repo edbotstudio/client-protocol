@@ -47,7 +47,7 @@ Example request message, **params** content omitted:
     "sequence": 1,
     "type": 1,
     "params": {
-	    // ...
+        // ...
     }
 }
 ```
@@ -64,7 +64,7 @@ Example response message, **data** content omitted:
         "text": "OK"
     },
     "data": {                // returned data, null if none
-	    // ...
+        // ...
     }
 }
 ```
